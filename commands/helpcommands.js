@@ -8,14 +8,19 @@ module.exports = {
 	description: 'available commands',
 	execute(message) {
 	
-	message.channel.send(`Start your commands with !watcher. Here are the available commands.
+		message.channel.send(`Start your commands with !watcher. Here are the available commands.
 
-!watcher ethbonded youradress : Get the balance of ethbonded by your group
-!watcher collateralratio youradress BTC : collateral ratio of your group
+!watcher summary youraddress : various stats about your signing group
+!watcher ethbonded youraddress : Get the balance of ethbonded by your group
+!watcher collateralratio youraddress : collateral ratio of your group
+!watcher coveredbtc youraddress : lotsize covered by your group
 !watcher help : display available commands
 
-at "youradress", put the ethereum adress of your signing group
-at "BTC" , put the amount of BTC custodied by your signing group`);
+
+At "youraddress", put the ethereum adress of your signing group.
+
+This is a work-in-progress, lots more features coming. Feedback welcome, ping me @StateLayer. 
+`);
 
 	
 		

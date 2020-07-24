@@ -30,12 +30,13 @@ module.exports = {
 			}
 		  }).then((result) => {
 
-			if(result.data.data==undefined){
+			if(result.data.data==undefined || result.data.data.bondedECDSAKeeps[0]==undefined){
 				message.channel.send('that address has no bonded eth');
 				return;
 			}
+			console.log("result.data.data")
 			const bondAmount= result.data.data.bondedECDSAKeeps[0].bondAmount;
-			message.channel.send(`You have ${bondAmount} ETH bonded in your node`);
+			message.channel.send(` ${bondAmount} ETH is currently bonded by your signing group`);
 		  });
 	},
 };

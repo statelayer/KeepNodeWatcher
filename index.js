@@ -2,6 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 
+
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
@@ -14,6 +15,8 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log('Ready!');
+	 
+
 });
 
 client.on('message', message => {

@@ -14,9 +14,7 @@ module.exports = {
 	
 	const address=args[0];
 	console.log(address);
-	console.log(args[1]);
 	console.log(ethbtcratio);
-
 
 		axios({
 			url: 'https://api.thegraph.com/subgraphs/name/suntzu93/tbtc',
@@ -24,30 +22,31 @@ module.exports = {
 			data: {
 			  query: `
 			  {
-		  bondedECDSAKeeps(where: {state: ACTIVE , keepAddress: "${address}" }) {
-			keepAddress
-			bondAmount
-			timestamp
-			state
-		  }
-		}
+				deposits(where:{keepAddress:${address}}){
+				  bondedECDSAKeep {
+					id
+					bondAmount
+				  }
+				  id
+				  state
+				  lotSize
+				}
+			  }
 		
 			  `
 			}
 		  }).then((result) => {
 
-			if(result.data.data==undefined){
+			if(result.data.data==undefined || result.data.data.bondedECDSAKeeps[0]==undefined){
 				message.channel.send('that address has no bonded eth');
 				return;
 			}
 
-			if(isNaN(args[1])){
-				return;
-			}
 			else{
-				const bondAmount= result.data.data.bondedECDSAKeeps[0].bondAmount;
+				const bondAmount= result.data.data.deposits[0].bondedECDSAKeep.bondAmount;
+				const lotSize=(result.data.data.deposits[0].lotSize)/100000000;
 				console.log(bondAmount);
-				var collateralratio=(bondAmount/(args[1])/ethbtcratio*100).toFixed(2);
+				var collateralratio=(bondAmount/(lotSize)/ethbtcratio*100).toFixed(2);
 				message.channel.send(`Your current collateral ratio is ${collateralratio}%`);
 			}
 
