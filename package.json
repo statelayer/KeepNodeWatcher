@@ -12,7 +12,8 @@
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.0",
     "node-gyp": "^7.0.0",
-    "python": "0.0.4"
+    "python": "0.0.4",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {},
   "scripts": {

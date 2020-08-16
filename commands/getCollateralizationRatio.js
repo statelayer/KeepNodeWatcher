@@ -5,7 +5,7 @@ const coingeckoethbtc = `https://api.coingecko.com/api/v3/simple/price?ids=bitco
 
 module.exports = {
 	name: 'collateralratio',
-	description: 'eth btc collateral ratio',
+	description: 'display all available commands',
 	execute(message, args) {
 	
 	axios.get(coingeckoethbtc).then(function (response) {
@@ -22,7 +22,7 @@ module.exports = {
 			data: {
 			  query: `
 			  {
-				deposits(where:{keepAddress:${address}}){
+				deposits(where:{keepAddress:"${address}"}){
 				  bondedECDSAKeep {
 					id
 					bondAmount
@@ -33,21 +33,25 @@ module.exports = {
 				}
 			  }
 		
+		
 			  `
 			}
 		  }).then((result) => {
-
-			if(result.data.data==undefined || result.data.data.bondedECDSAKeeps[0]==undefined){
+			console.log(result.data)
+			if(result.data.data==undefined){
 				message.channel.send('that address has no bonded eth');
 				return;
 			}
 
 			else{
-				const bondAmount= result.data.data.deposits[0].bondedECDSAKeep.bondAmount;
-				const lotSize=(result.data.data.deposits[0].lotSize)/100000000;
+				const bondAmount= (result.data.data.deposits[0].bondedECDSAKeep.bondAmount);
+				const lotSize=((result.data.data.deposits[0].lotSize)/100000000);
 				console.log(bondAmount);
-				var collateralratio=(bondAmount/(lotSize)/ethbtcratio*100).toFixed(2);
-				message.channel.send(`Your current collateral ratio is ${collateralratio}%`);
+                var collateralratio=(bondAmount/(lotSize)/ethbtcratio*100).toFixed(2);
+                var btceth=ethbtcratio.toFixed(2);
+                message.channel.send(`Your signing group has a collateral ratio of ${collateralratio} %
+
+`);
 			}
 
 		  });
